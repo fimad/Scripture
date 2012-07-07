@@ -1,5 +1,5 @@
-Scripts
-=======
+Scripture
+=========
 
 This repo contains a bunch of random scripts I've written/found useful at some
 point in my life. Most (hopefully) will have a comment explaining the usage
