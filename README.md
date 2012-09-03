@@ -10,6 +10,7 @@ I've tried to organize them into a heirarchy based on genre.
 
 * hacking/      -At the moment mostly just wifi sniffing
 * net/          -Setting up/managing networks
+* x/            -Various X11 utilities
 
 
 License

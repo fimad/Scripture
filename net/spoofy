@@ -1,0 +1,22 @@
+#!/bin/bash
+#Spoofs a devices mac address
+
+if [ "$#" == "1" ]; then
+  SUDO='sudo'
+#don't need sudo if we are already root
+  if [ `whoami` == "root" ]; then
+    SUDO='';
+  fi
+  $SUDO ifconfig $1 down
+  result="go"
+#sometimes the mac is no good
+  while [ "$result" != "" ]; do
+#generate a random mac address
+    mac=`cat /dev/urandom | tr -cd "a-f0-9" | head -c 12 | sed -r 's/([a-f0-9]{2})/\1:/g' | head -c 17`
+    result=`$SUDO ifconfig $1 hw ether "$mac" 2>&1`
+  done
+  echo "Setting mac address of $1 to '$mac'"
+  $SUDO ifconfig $1 up
+else
+  echo "usage: spoofy dev"
+fi
