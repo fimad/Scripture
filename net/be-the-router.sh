@@ -6,7 +6,7 @@
 ################################################################################
 
 #Ask the user what's up
-if [ "$#" > "1" ]; then
+if [ "$#" -gt "1" ]; then
   network="$1"
   password="$2"
   scheme="$3"
@@ -14,6 +14,8 @@ else
   echo "usage: $0 essid password [wpa*]"
   echo ""
   echo "*Default encryption is wep"
+  echo "Note: For some reason, for a wep password, the key must be given in hex:"
+  echo "      xxxxxxxxxx (10 digits long)"
   exit
 fi
 
@@ -32,7 +34,7 @@ net_dev="eth0"
 
 function init_wep {
   sudo iwconfig "$wifi_dev" channel 8 essid "$network" mode ad-hoc
-  sudo iwconfig "$wifi_dev" key s:"$password"
+  sudo iwconfig "$wifi_dev" key restricted "$password"
 }
 
 function init_wpa {
@@ -78,6 +80,7 @@ sudo ip addr flush dev "$wifi_dev"
 #probably not the most portable, but kill all prior wpa-wifi setups
 sudo killall wpa_supplicant 2> /dev/null
 
+sudo ip link set "$wifi_dev" up
 #set up the network
 if [ "$scheme" == "wpa" ]; then
   init_wpa
@@ -86,7 +89,7 @@ else
 fi
 
 #set the ip
-sudo ip link set "$wifi_dev" up
+#sudo ip link set "$wifi_dev" up
 sudo ip addr add "$wifi_ip" dev "$wifi_dev"
 
 #share our internet with those less fortunate
