@@ -13,6 +13,8 @@ sudo bash << EOF
 (   zfs create shire/service/$name \
 &&  adduser --system --home /shire/service/$name $name \
 &&  addgroup --system $name \
+&&  adduser $name service \
+&&  chsh -s /bin/bash $name \
 &&  adduser $name $name \
 &&  adduser $user $name \
 &&  chown $name:$name /shire/service/$name \
